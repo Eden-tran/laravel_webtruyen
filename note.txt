@@ -1,0 +1,58 @@
+-----Backend
+---Chung
+* Đăng nhập bằng facebook và google (Optional)
+* Xứ lý đổ dữ liệu where ở List category và chapter và mangas -----√ XONG
+* Route khi đăng nhập sẽ vào trang quản lý truyện với user bình thường
+* viết Cronjob xóa những trường dữ liệu bị trống tên khi create chapter và status=1, và xóa hết dữ liệu của nó trong folder temp trong vòng created_date+30phút -----√ XONG
+* viết các trang báo lỗi 403,404.... + dẫn lỗi vào các trang 403, 404 (Optional)
+* Viết thêm phần search cho các module (Optional)
+* Phân trang cho các module.-----√ XONG
+* Bug upload hình chapter. Bắt lỗi đã tồn tại hình -----???? đã test lại ko thấy bug
+* Chia cấu trúc dự án lại theo đúng tên controller
+* Thêm phần chỉnh sửa banner
+* Việt hóa website
+* Phân trang cho các chức năng
+
+---User
+* Super admin sẽ được tạo cùng với hệ thống. Không thể tạo tay và không thể xóa -----√ XONG
+* Chỉnh sửa thêm phần authorization. Người dùng có thể tự edit thông tin cá nhân+ đổi mật khẩu+ xác thực đăgg ký bằng email ( Nếu tự tạo tài khoản. Admin tạo tài khoản thì email_verfied=now()) (đã bật mail verfication)-----√ XONG
+* sửa lại phần register của authentication-----√ XONG
+* User đã tắt active vẫn có thể đăng nhập-----√ XONG
+* Mặc định có 2 nhóm người người dùng không thể EDIT/DELETE là Normal user và super admin-----√ XONG
+* Sửa chỗ  Module user: chỉ super admin group_id=1 mới có thể tạo ra thêm superadmin. Các user khác không thể tạo superadmin. Edit tạo ra được super admin từ user con. SỬA GẤP !!!!-----√ XONG
+
+---Manga
+* User Guest chỉ được tương tác với những gì mình upload . 1 manga chỉ được tương tác bởi chính tác giả của nó-----√ XONG
+* Sau khi add truyện mới. Nhảy vô trang Chapter.add để thêm chapter. -----√ XONG
+* Khi bấm vào tên truyện ở phần quản lý sẽ đẩy ra trang view fe-----√ XONG
+* Bổ sung thêm rating cho truyện và comment cho truyện------ đã làm phần comment
+
+---Group
+* Phân quyền lại toàn bộ backend  (Authorization)-----√ XONG
+* Tắt group Super Admin không thể tắt active -- ??
+* Admin full quyền xem được tất cả các truyện và chapter và user-----√ XONG
+* Phân quyền. Quyền bắt buộc khi có các quyền khác là view. Mặc định là lúc nào cũng sẽ có quyền view thì sẽ có các quyền khác. Không tồn tại
+view các quyền khác vô hiệu. ( đã làm xong policy cần bổ sung thêm chỗ javascript)-----√ XONG
+* Phân quyền theo nhóm và theo cá nhân + phân quyền lv người dùng-----√ XONG
+* Sửa phân quyền. Nếu không được quyền tương tác với truyện thì không được tương tác với chương truyện sửa javascript-----√ XONG
+* Chỉnh sửa phân quyền single hoặc quyền chỉnh sửa tất cả của các user khác (scope)-----√ XONG
+* Thiết lập phân quyền đa cấp. Group con không thể phân quyền cho group cha và ngược lại (optional)
+---Role
+---Category
+---Chapter
+* Làm thêm nút quản lý chương từ List.manga để dẫn vào chapterController -----√ XONG
+* Bổ sung chức năng đẩy chapter và manga lên cloud (optional)
+* thêm chức năng tách pdf thành từng trang image như trên globalcomix (optional)
+* Chức năng truyện yêu thích (Cart).-----√ XONG
+* Thêm button xem ở Manga và Chapter sẽ trỏ thẳng ra trang Front End-----√ XONG
+* Khi bấm vào tên chapter ở phần quản lý sẽ đẩy ra thẳng trang view FE-----√ XONG
+* Chỉnh sửa status của chapter không kích hoạt thì ko hiển thị ở FE -----√ XONG
+* Show view và like cho chapter và manga và số chapter của manga-----√ XONG
+
+
+// Mua source web truyện của anh Hiểu project tutorial để tham khảo 300k
+-----FrontEnd
+---HomeController
+* Truyện hay slider tính những truyện có view cao + mới cập nhật
+* làm trang đọc Chapter-----√ XONG
+* làm trang search follow querry ( category, author, tên, )-----√ XONG
