@@ -85,7 +85,7 @@ class GroupController extends Controller
         ]);
         $roleArr = $request->role;
         //  trường hợp chỉ tồn tại mỗi giá trị của scope thì xóa, phải tồn tại action+scope
-
+        dd($roleArr);
         $roleJson = json_encode($roleArr);
         $group = new Group;
         $group->name = $request->txtGroupName;

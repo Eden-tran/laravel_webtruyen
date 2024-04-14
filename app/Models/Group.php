@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Action;
 
 class Group extends Model
 {
@@ -17,5 +18,9 @@ class Group extends Model
     public function createdByUser() // tên function = tên bảng_id=> ví dụ belongsto với foreign key là user_id thì tên function phải là user
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function actions()
+    {
+        return $this->belongsToMany(Action::class);
     }
 }

@@ -8,6 +8,7 @@ use Database\Seeders\UserSeeder;
 use Database\Seeders\ViewSeeder;
 use Database\Seeders\GroupSeeder;
 use Database\Seeders\MangaSeeder;
+use Database\Seeders\ActionSeeder;
 use Database\Seeders\ModuleSeeder;
 use Database\Seeders\ChapterSeeder;
 use Database\Seeders\CategorySeeder;
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModuleSeeder::class);
         $this->call(LikeSeeder::class);
         $this->call(ViewSeeder::class);
+        $this->call(ActionSeeder::class);
 
 
         // \App\Models\User::factory(10)->create();
