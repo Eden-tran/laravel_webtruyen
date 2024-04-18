@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Action;
+use App\Models\Module;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Group extends Model
 {
@@ -21,6 +22,10 @@ class Group extends Model
     }
     public function actions()
     {
-        return $this->belongsToMany(Action::class);
+        return $this->belongsToMany(Action::class)->withTimestamps();
+    }
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class)->withPivot(['scope'])->withTimestamps();
     }
 }

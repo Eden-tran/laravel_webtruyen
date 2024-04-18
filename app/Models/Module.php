@@ -13,4 +13,8 @@ class Module extends Model
     {
         return $this->hasMany(Action::class);
     }
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class)->withTimestamps();
+    }
 }

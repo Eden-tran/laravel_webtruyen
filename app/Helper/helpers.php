@@ -23,14 +23,18 @@ function getAllGroup()
     }
     return $data;
 }
-function isRole($dataArr, $moduleName, $role = 'view')
+function isRole($dataArr = [], $action, $role = 'view')
 {
-    if (!empty($dataArr[$moduleName])) {
-        $roleArr = $dataArr[$moduleName];
-        if (!empty($roleArr) && in_array($role, $roleArr)) {
-            return true;
-        }
+    // dd($dataArr);
+    if (in_array($action, $dataArr)) {
+        return true;
     }
+    // if (!empty($dataArr[$moduleName])) {
+    //     $roleArr = $dataArr[$moduleName];
+    //     if (!empty($roleArr) && in_array($role, $roleArr)) {
+    //         return true;
+    //     }
+    // }
     return false;
 }
 function getBookmarks()
