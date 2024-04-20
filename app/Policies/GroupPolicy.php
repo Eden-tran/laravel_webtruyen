@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Group;
+use App\Models\Action;
+use App\Models\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -18,10 +20,13 @@ class GroupPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     protected $scope;
+    protected $moduleId;
+
     public function __construct(User $user)
     {
         $module = 'Group';
-        $this->scope = json_decode(Auth::user()->group->permissions, true)[$module]['Scope'];;
+        $this->moduleId = Module::where('Name', '=', class_basename(Group::class))->firstOrFail()?->id;
+        $this->scope =  Auth::user()->group->modules()->where('module_id',   $this->moduleId)->firstOrFail()->pivot->scope;
     }
     public function viewAny(User $user)
     {
@@ -50,13 +55,18 @@ class GroupPolicy
      */
     public function create(User $user)
     {
-
-        $key = 'Add';
-        $moduleName = 'Group';
-        $roleJson = $user->group->permissions;
-        if (!empty($roleJson)) { // check if role can use
-            $roleArr = json_decode($roleJson, true);
-            $check = isRole($roleArr, $moduleName, $key);
+        $actionName = 'Add';
+        $actionId = Action::where([
+            ['module_id', $this->moduleId],
+            ['name', $actionName],
+        ])->firstOrFail()->id;
+        $userActionList = $user->group->actions->pluck('id')->toArray();
+        if (!empty($userActionList)) { // check if role can use
+            if (isRole($userActionList, $actionId)) {
+                $check = isRole($userActionList, $actionId);
+            } else {
+                $check = false;
+            }
             return $check;
         }
         return false;
@@ -97,7 +107,7 @@ class GroupPolicy
                 return true;
             }
         }
-        return $check;
+        return false;
     }
 
     /**

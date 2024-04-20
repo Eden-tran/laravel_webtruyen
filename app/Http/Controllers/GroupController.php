@@ -13,11 +13,17 @@ use Illuminate\Support\Facades\Gate;
 
 class GroupController extends Controller
 {
+    protected $scope;
+    protected $moduleId;
+    public function __construct()
+    {
+        $this->moduleId = Module::where('Name', '=', class_basename(Group::class))->firstOrFail()?->id;
+    }
     public function index()
     {
         $perPage = 10;
         $module = 'Group';
-        $scope = json_decode(Auth::user()->group->permissions, true)[$module]['Scope'];
+        $scope = getScope($module);
         if ($scope == 1) {
             $list = Group::paginate($perPage);
         } else {
@@ -134,10 +140,7 @@ class GroupController extends Controller
         }
         $title = 'Sửa nhóm người dùng';
         $modules = Module::whereHas('actions')->get();
-        // dd($modules->pluck('id')->toArray());
-        // dd(array_key_exists(2, $group->modules->pluck('pivot.scope', 'id')->toArray()));
-        // dd($group->modules->pluck('pivot.scope', 'id')->toArray());
-        // dd($group->modules()->where('module_id', 1)->get()->first()->pivot->scope);
+
         return view('backend.group.editForm', compact('title', 'group', 'modules',));
     }
     public function postEdit(Group $group, Request $request)
@@ -205,14 +208,7 @@ class GroupController extends Controller
             $attributes['role'] = 'Phân quyền';
         };
         $request->validate($rules, $messages, $attributes);
-        // if ($request->role) {
-        //     $roleArr = $request->role;
-        //     $verifiedRole = array_filter($roleArr, function ($item) {
-        //         return count($item) > 1 || !array_key_exists('Scope', $item);
-        //     });
-        //     $roleJson = json_encode($verifiedRole);
-        //     $group->permissions = $roleJson;
-        // }
+
         $actionArr = $request->role;
         $group->name = $request->txtGroupName;
         $group->describe = $request->txtGroupDescribe;

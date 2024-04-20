@@ -43,11 +43,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         try {
             $moduleList = Module::with('actions')->get();
+
             if ($moduleList->count() > 0) {
                 foreach ($moduleList as $module) {
                     foreach ($module->actions as $action) {
-                        $actionName = $action->name;
-                        Gate::define(strtolower($module->name . '.' . $actionName), function (User $user) use ($actionName, $module) {
+                        Gate::define(strtolower($module->name . '.' .  $action->name), function (User $user) use ($action, $module) {
                             if ($user->group_id == null) { //! normal user with group_id==null => only acces edit $user information
                                 return false;
                             }
@@ -57,11 +57,13 @@ class AuthServiceProvider extends ServiceProvider
                             if ($user->group->active != 2) { //! if group isn't active cannot access to any module
                                 return false;
                             }
-                            $roleJson = $user->group->permissions;
-                            if (!empty($roleJson)) { // check if role can use
-                                $roleArr = json_decode($roleJson, true);
-                                if (isRole($roleArr, $module->name, 'View')) {
-                                    $check = isRole($roleArr, $module->name, $actionName);
+                            if ($user->active == 1) { //! user no active
+                                return false;
+                            }
+                            $userActionList = $user->group->actions->pluck('id')->toArray();
+                            if (!empty($userActionList)) { // check if role can use
+                                if (isRole($userActionList, $action->id,)) {
+                                    $check = isRole($userActionList, $action->id);
                                 } else {
                                     $check = false;
                                 }

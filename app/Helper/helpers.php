@@ -57,7 +57,8 @@ function getScope($module)
 {
     if ($module) {
         if (Auth::user()) {
-            $scope = json_decode(Auth::user()->group->permissions, true)[$module]['Scope'];
+
+            $scope = Auth::user()->group->modules()->where('name', $module)->firstOrFail()->pivot->scope;
             return $scope;
         }
     }

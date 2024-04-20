@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -19,10 +20,14 @@ class UserPolicy
      */
 
     protected $scope;
+    protected $moduleId;
+
     public function __construct()
     {
-        $module = 'User';
-        $this->scope = json_decode(Auth::user()->group->permissions, true)[$module]['Scope'];;
+        // $module = 'User';
+        // $this->moduleId = Module::where('Name', '=', class_basename(User::class))->firstOrFail()?->id;
+        $this->scope = getScope(class_basename(User::class));
+        // $this->scope =  Auth::user()->group->modules()->where('module_id',   $this->moduleId)->firstOrFail()->pivot->scope;
     }
     public function viewAny(User $user)
     {

@@ -40,7 +40,7 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
 });
 Route::prefix('/')->name('fe.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/manga/{manga:slug}', [HomeController::class, 'detailManga'])->name('detailManga');
+    Route::get('/manga/{manga   }', [HomeController::class, 'detailManga'])->name('detailManga');
     Route::get('chapter/{chapter}',  [ChapterController::class, 'readChapter'])->name('readChapter');
     Route::prefix('/search')->name('search.')->group(function () {
         Route::get('/',  [MangaController::class, 'searchView'])->name('searchView');

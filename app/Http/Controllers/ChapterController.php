@@ -167,6 +167,9 @@ class ChapterController extends Controller
                     $page->name = basename($file);
                     $page->save();
                     if ($page->id) {
+                        if (Storage::exists("public/chapter/$chapter->id/" . basename($file))) {
+                            Storage::delete("public/chapter/$chapter->id/" . basename($file));
+                        }
                         Storage::move($file, "public/chapter/$chapter->id/" . basename($file));
                     }
                 }

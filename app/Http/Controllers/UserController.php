@@ -3,20 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    protected $scope;
+    protected $moduleId;
+    public function __construct()
+    {
+        $this->moduleId = Module::where('Name', '=', class_basename(User::class))->firstOrFail()?->id;
+    }
     public function index()
     {
         $title = 'Quản lý người dùng';
         $user = Auth::user();
-        $module = 'User';
-        $scope = json_decode(Auth::user()->group->permissions, true)[$module]['Scope'];
+        $scope = $this->scope = getScope(class_basename(User::class));
         $perPage = 10;
         if ($scope == 1) {
             $list = User::orderBy('group_id')->paginate($perPage);

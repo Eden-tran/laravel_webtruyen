@@ -17,7 +17,7 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('active');
-            $table->string('permissions', 2000)->nullable();
+            // $table->string('permissions', 2000)->nullable();
             $table->string('describe', 200)->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
